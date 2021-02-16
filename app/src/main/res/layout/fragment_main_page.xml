@@ -51,6 +51,17 @@
 
                     </androidx.appcompat.widget.Toolbar>
                 </com.google.android.material.appbar.CollapsingToolbarLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <devs.mulham.horizontalcalendar.HorizontalCalendarView
+                        android:id="@+id/calendarView"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        app:textColorSelected="#FFFF"/>
+                </LinearLayout>
             </com.google.android.material.appbar.AppBarLayout>
 
 
@@ -69,6 +80,7 @@
 
 
 
+
                 <LinearLayout
                     android:id="@+id/linearLayout2"
                     android:layout_width="match_parent"
@@ -76,17 +88,9 @@
                     android:background="@drawable/card"
                     android:orientation="vertical"
                    >
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <devs.mulham.horizontalcalendar.HorizontalCalendarView
-                            android:id="@+id/calendarView"
 
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@android:color/transparent"
-                            app:textColorSelected="#FFFF"/>
-                    </LinearLayout>
+
+
 
 
 
@@ -183,9 +187,10 @@
                         android:text="@string/lorem"
                         android:textSize="20sp"
                         android:lineSpacingExtra="8sp"
-                        android:padding="16dp"
-                        />
+                        android:padding="16dp"                        />
+
                 </LinearLayout>
+
 
 
 
