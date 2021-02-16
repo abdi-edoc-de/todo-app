@@ -16,12 +16,21 @@
         <action
             android:id="@+id/action_mainPage_to_schedule"
             app:destination="@id/schedule" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+
     </fragment>
     <fragment
         android:id="@+id/profile"
         android:name="com.example.schedule.Profile"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+
+        <argument
+            android:name="na"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/schedule"
         android:name="com.example.schedule.Schedule"
@@ -33,8 +42,10 @@
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
-            android:id="@+id/action_login2_to_mainPage"
-            app:destination="@id/mainPage" />
+            android:id="@+id/action_login2_to_mainPage2"
+            app:destination="@id/mainPage" >
+
+        </action>
     </fragment>
     <fragment
         android:id="@+id/register2"
@@ -42,7 +53,9 @@
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" >
         <action
-            android:id="@+id/action_register2_to_mainPage"
-            app:destination="@id/mainPage" />
+            android:id="@+id/action_register2_to_mainPage2"
+            app:destination="@id/mainPage" >
+
+        </action>
     </fragment>
 </navigation>

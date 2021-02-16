@@ -1,33 +1,67 @@
 package com.example.schedule
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.schedule.databinding.FragmentLoginBinding
 
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
-/**
- * A simple [Fragment] subclass.
- * Use the [Login.newInstance] factory method to
- * create an instance of this fragment.
- */
+
+//import com.hanks.passcodeview.PasscodeView
+
+
 class Login : Fragment() {
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
+        // this is to bind the activity part and the layout
         val binding: FragmentLoginBinding =DataBindingUtil.inflate(
-            inflater,R.layout.fragment_login,container,false
+            inflater, R.layout.fragment_login, container, false
         )
+        val pin=binding.pin
+        val check: TextWatcher = object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {}
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                if (filterLongEnough()==4   ) {
+                    if(pin.text.toString()=="1234" ){
+                        findNavController().navigate(LoginDirections.actionLogin2ToMainPage2("abdi"))
+                    }else{
+                        Toast.makeText(activity,"No correct",Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+            private fun filterLongEnough(): Int {
+                return pin.text.toString().trim { it <= ' ' }.length
+            }
+        }
+        pin.addTextChangedListener(check)
+
+        //this is to return the view object
         return binding.root
     }
 
+
+    fun showSoftKeyboard(view: View) {
+        if (view.requestFocus()) {
+            val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+        }
+    }
 
 }

@@ -1,9 +1,11 @@
 package com.example.schedule
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.schedule.databinding.FragmentProfileBinding
@@ -23,6 +25,7 @@ class Profile : Fragment() {
     // TODO: Rename and change types of parameters
 
 
+    @SuppressLint("UseRequireInsteadOfGet")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,6 +34,9 @@ class Profile : Fragment() {
         val binding: FragmentProfileBinding =DataBindingUtil.inflate(
             inflater,R.layout.fragment_profile,container,false
         )
+        val arg=MainPageArgs.fromBundle(arguments!!)
+        Toast.makeText(context, arg.name, Toast.LENGTH_LONG).show()
+
         return binding.root
 
     }

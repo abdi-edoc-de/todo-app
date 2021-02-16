@@ -10,24 +10,66 @@
         android:background="@drawable/main_background"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/textView3"
+        <com.chaos.view.PinView
+            android:id="@+id/pin"
+            style="@style/PinWidget.PinView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Login page"
+            android:cursorVisible="true"
+            android:hint="Hint."
+            android:inputType="numberPassword"
+            android:itemBackground="@drawable/rectangle_1470"
+            android:padding="40dp"
+            android:textColor="#fff8"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:cursorColor="#543"
+            app:cursorWidth="0dp"
+            app:hideLineWhenFilled="true"
+            app:itemCount="4"
+            app:itemHeight="80dp"
+            app:itemRadius="4dp"
+            app:itemSpacing="10dp"
+            app:itemWidth="75dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.499"
+            app:lineColor="#453"
+            app:lineWidth="2dp"
+            app:viewType="rectangle">
+            <requestFocus />
+        </com.chaos.view.PinView>
 
-        <Button
-            android:id="@+id/login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="login"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+
+<!--        <com.kevalpatel.passcodeview.PinView-->
+<!--            android:id="@+id/pin_view"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            app:dividerColor="@color/material_on_primary_disabled"-->
+<!--            app:fingerprintDefaultText="Scan your finger to unlock application"-->
+<!--            app:fingerprintEnable="true"-->
+<!--            app:fingerprintTextColor="@color/material_on_surface_emphasis_high_type"-->
+<!--            app:fingerprintTextSize="5dp"-->
+<!--            app:titleTextColor="@android:color/white"/>-->
+
+        <!--        <com.goodiebag.pinview.Pinview-->
+<!--            android:id="@+id/pinview"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:cursorVisible="false"-->
+<!--            app:forceKeyboard="true"-->
+<!--            app:hint="0"-->
+<!--            app:inputType="number"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:password="false"-->
+<!--            app:pinBackground="@drawable/rectangle_1470"-->
+<!--            app:pinHeight="40dp"-->
+<!--            app:pinLength="4"-->
+<!--            app:pinWidth="40dp" />-->
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

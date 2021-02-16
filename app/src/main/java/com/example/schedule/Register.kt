@@ -1,11 +1,13 @@
 package com.example.schedule
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.example.schedule.databinding.FragmentRegisterBinding
 
 //import com.example.shedule.databinding.FragmentRegisterBinding
@@ -19,6 +21,7 @@ import com.example.schedule.databinding.FragmentRegisterBinding
  * create an instance of this fragment.
  */
 class Register : Fragment() {
+    var man=true;
 
 
     override fun onCreateView(
@@ -29,6 +32,12 @@ class Register : Fragment() {
         val binding: FragmentRegisterBinding =DataBindingUtil.inflate(
             inflater,R.layout.fragment_register,container,false
         )
+
+        binding.register.setOnClickListener{
+            Toast.makeText(activity,"register", Toast.LENGTH_LONG).show()
+            man=false
+            it.findNavController().navigate(RegisterDirections.actionRegister2ToMainPage2("name"))
+        }
         return binding.root
     }
 
