@@ -8,7 +8,9 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.room.Room
 import com.example.schedule.databinding.FragmentRegisterBinding
+import com.example.schedule.models.User
 
 //import com.example.shedule.databinding.FragmentRegisterBinding
 
@@ -32,10 +34,14 @@ class Register : Fragment() {
         val binding: FragmentRegisterBinding =DataBindingUtil.inflate(
             inflater,R.layout.fragment_register,container,false
         )
-
         binding.register.setOnClickListener{
             Toast.makeText(activity,"register", Toast.LENGTH_LONG).show()
-            man=false
+            val db = Room.databaseBuilder(
+                requireActivity(), AppDatabase::class.java, "schedule-db"
+            ).allowMainThreadQueries().build()
+            // TODO: Input validation of some sort
+            val user = User(uid = 1, username = binding.inputEmail.text.toString(), pin = binding.inputPassword.text.toString().toInt(), askOnStart = binding.toggleButton1.isChecked, hasLoggedIn = true)
+            db.userDao().insertUser(user)
             it.findNavController().navigate(RegisterDirections.actionRegister2ToMainPage2("name"))
         }
         return binding.root

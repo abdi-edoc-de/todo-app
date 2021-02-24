@@ -3,6 +3,7 @@ package com.example.schedule
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.room.Room
 import com.example.schedule.databinding.FragmentMainPageBinding
 import devs.mulham.horizontalcalendar.HorizontalCalendar
 import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener
@@ -21,6 +23,18 @@ class MainPage :Fragment() {
     // TODO: Rename and change types of parameters
 
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        val db = Room.databaseBuilder(
+            requireActivity(), AppDatabase::class.java, "schedule-db"
+        ).allowMainThreadQueries().build()
+        val userDAO = db.userDao()
+        val user = userDAO.getAll().firstOrNull()
+        if (user != null) {
+            user.hasLoggedIn = false
+            userDAO.updateUser(user)
+        }
+    }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreateView(
@@ -62,10 +76,17 @@ class MainPage :Fragment() {
 
 //      this block is for navigation to registration and login if the user dose not already
 //        var arg=RegisterArgs
-        if (false){
+        val db = Room.databaseBuilder(
+                requireActivity(), AppDatabase::class.java, "schedule-db"
+        ).allowMainThreadQueries().build()
+        val user = db.userDao().getAll()
+        if(user.isNotEmpty() && user.first().askOnStart == true && user.first().hasLoggedIn == false){
             findNavController().navigate(R.id.login2)
-        }else if(false){
+            Log.w("MainPage", "Got to this bit")
+        }else if (user.isEmpty()){
             findNavController().navigate(R.id.register2)
+        } else {
+            Log.w("MainPage", "So we got to the else")
         }
 
 
