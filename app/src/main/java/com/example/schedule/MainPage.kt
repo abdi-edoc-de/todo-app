@@ -12,20 +12,26 @@ import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
+import com.example.schedule.DAOs.TaskDAO
 import com.example.schedule.databinding.FragmentMainPageBinding
+import com.example.schedule.models.Task
 import devs.mulham.horizontalcalendar.HorizontalCalendar
 import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener
 import java.util.*
 
 class MainPage :Fragment() {
      var man =Register();
+    private lateinit var db: AppDatabase
+    private lateinit var tasks: MutableList<Task>
+    private lateinit var adapter: TaskAdapter
     // TODO: Rename and change types of parameters
 
 
     override fun onDestroyView() {
         super.onDestroyView()
-        val db = Room.databaseBuilder(
+        db = Room.databaseBuilder(
             requireActivity(), AppDatabase::class.java, "schedule-db"
         ).allowMainThreadQueries().build()
         val userDAO = db.userDao()
@@ -69,20 +75,27 @@ class MainPage :Fragment() {
                     @RequiresApi(Build.VERSION_CODES.O)
                     override fun onDateSelected(date: Calendar?, position: Int) {
                         Toast.makeText(activity, date.toString(), Toast.LENGTH_LONG).show()
-                        //do something
+                        //remove all the tasks and add new ones
+                        tasks.removeIf { true }
+                        val calInst = Calendar.getInstance()
+                        calInst.time = horizontalCalendar.selectedDate.time
+                        calInst.add(Calendar.DATE, 1)
+                        tasks.addAll(db.taskDao().getAllBetweenDates(horizontalCalendar.selectedDate.time, calInst.time))
+                        adapter.notifyDataSetChanged()
                     }
                 }
 
 
 //      this block is for navigation to registration and login if the user dose not already
 //        var arg=RegisterArgs
-        val db = Room.databaseBuilder(
+
+        db = Room.databaseBuilder(
                 requireActivity(), AppDatabase::class.java, "schedule-db"
         ).allowMainThreadQueries().build()
         val user = db.userDao().getAll()
         if(user.isNotEmpty() && user.first().askOnStart == true && user.first().hasLoggedIn == false){
-            findNavController().navigate(R.id.login2)
             Log.w("MainPage", "Got to this bit")
+            findNavController().navigate(R.id.login2)
         }else if (user.isEmpty()){
             findNavController().navigate(R.id.register2)
         } else {
@@ -90,7 +103,16 @@ class MainPage :Fragment() {
         }
 
 
-
+        val taskListView = binding.TaskList
+        val taskDao = db.taskDao()
+        populateDB(taskDao)
+        val calInst = Calendar.getInstance()
+        calInst.time = horizontalCalendar.selectedDate.time
+        calInst.add(Calendar.DATE, 1)
+        tasks = taskDao.getAllBetweenDates(horizontalCalendar.selectedDate.time, calInst.time).toMutableList()
+        adapter = TaskAdapter(tasks)
+        taskListView.adapter = adapter
+        taskListView.layoutManager = LinearLayoutManager(requireContext())
 
         // this block is for navigation to schedule and profile
 
@@ -110,6 +132,25 @@ class MainPage :Fragment() {
         // this return the main page view object
         return binding.root
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+    }
+
+    private fun populateDB(taskDao: TaskDAO) {
+        val tasks = taskDao.getAll()
+        if (tasks.isEmpty()){
+            val tasksList = mutableListOf<Task>()
+            val currDate = Calendar.getInstance()
+            currDate.add(Calendar.DATE, -3)
+            (1..5).forEach { _ ->
+                currDate.add(Calendar.DATE, 1)
+                tasksList.addAll(Task.createTasks(10, currDate.time))
+            }
+            taskDao.insertTasks(tasksList)
+        }
     }
 
     private fun setActionBarTitle(yourTitle: Any) {
