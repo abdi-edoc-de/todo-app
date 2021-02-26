@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.Schedule" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#0099ff</item>
+        <item name="colorPrimary">#fff4e3</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
@@ -22,5 +22,11 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+    <style name="timePickerOrange">
+        <item name="colorControlNormal">#fff4e3</item>
+        <item name="android:divider">#fff4e3</item>
+        <item name="android:textColorPrimary">#fff4e3</item>
+        <item name="android:textColor">#fff4e3</item>
     </style>
 </resources>

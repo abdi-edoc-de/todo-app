@@ -42,7 +42,7 @@ class Register : Fragment() {
             // TODO: Input validation of some sort
             val user = User(uid = 1, username = binding.inputEmail.text.toString(), pin = binding.inputPassword.text.toString().toInt(), askOnStart = binding.toggleButton1.isChecked, hasLoggedIn = true)
             db.userDao().insertUser(user)
-            it.findNavController().navigate(RegisterDirections.actionRegister2ToMainPage2("name"))
+            it.findNavController().navigate(RegisterDirections.actionRegister2ToMainPage2())
         }
         return binding.root
     }

@@ -6,19 +6,178 @@
     tools:context=".Profile">
 
     <!-- TODO: Update blank fragment layout -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/msin_background">
+   <androidx.constraintlayout.widget.ConstraintLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:background="#5d5d5a">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Profile"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
+       <View
+           android:id="@+id/linearLayout3"
+           android:layout_width="350dp"
+           android:layout_height="600dp"
+           android:layout_marginTop="60dp"
+           android:background="@drawable/back_profile"
+           app:layout_constraintBottom_toBottomOf="parent"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintHorizontal_bias="0.491"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toTopOf="parent"
+           app:layout_constraintVertical_bias="0.338">
+
+       </View>
+
+       <TextView
+           android:id="@+id/textView2"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="8dp"
+           android:text="Biniyam Abiy"
+           android:textSize="20sp"
+           app:layout_constraintBottom_toBottomOf="@+id/linearLayout3"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toBottomOf="@+id/circleImageView"
+           app:layout_constraintVertical_bias="0.0" />
+
+       <LinearLayout
+           android:id="@+id/view"
+
+           android:layout_width="350dp"
+           android:layout_height="150dp"
+           android:layout_marginTop="16dp"
+
+           android:orientation="horizontal"
+           app:layout_constraintBottom_toTopOf="@+id/inputEmail"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintHorizontal_bias="0.491"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:layout_weight="1">
+
+               <com.philjay.circledisplay.CircleDisplay
+                   android:id="@+id/circleDisplay"
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:background="@android:color/transparent" />
+           </LinearLayout>
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:layout_weight="1">
+
+               <com.github.mikephil.charting.charts.PieChart
+                   android:id="@+id/pi2"
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:background="@android:color/transparent" />
+           </LinearLayout>
+       </LinearLayout>
+
+
+       <de.hdodenhof.circleimageview.CircleImageView
+           android:id="@+id/circleImageView"
+           android:layout_width="120dp"
+           android:layout_height="120dp"
+           android:layout_marginTop="24dp"
+           android:src="@drawable/maale"
+           app:layout_constraintBottom_toBottomOf="parent"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintHorizontal_bias="0.498"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toTopOf="parent"
+           app:layout_constraintVertical_bias="0.026" />
+
+       <EditText
+           android:id="@+id/inputEmail"
+           android:layout_width="0dp"
+
+           android:layout_height="wrap_content"
+           android:layout_marginHorizontal="0dp"
+           android:layout_marginStart="50dp"
+           android:layout_marginTop="400dp"
+           android:layout_marginEnd="50dp"
+           android:background="@drawable/round_border"
+           android:drawableStart="@drawable/ic_email"
+           android:drawablePadding="16dp"
+           android:ems="10"
+           android:hint="@string/email"
+           android:inputType="textEmailAddress"
+           android:padding="16dp"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintHorizontal_bias="0.0"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toTopOf="parent" />
+
+       <EditText
+           android:id="@+id/inputPassword"
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:layout_marginHorizontal="20dp"
+           android:layout_marginStart="50dp"
+           android:layout_marginTop="16dp"
+           android:layout_marginEnd="50dp"
+           android:background="@drawable/round_border"
+           android:drawableStart="@drawable/ic_lock"
+           android:drawablePadding="16dp"
+           android:ems="10"
+           android:hint="@string/password"
+           android:inputType="textPassword"
+           android:padding="16dp"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toBottomOf="@+id/inputEmail" />
+
+       <ToggleButton
+           android:id="@+id/toggleButton1"
+           android:layout_width="90dp"
+           android:layout_height="50dp"
+           android:layout_centerHorizontal="true"
+           android:layout_centerVertical="true"
+           android:layout_marginTop="20dp"
+           android:background="@drawable/toggle_selector"
+           android:checked="false"
+           android:text=""
+           android:textOff=""
+           android:textOn=""
+           app:layout_constraintEnd_toStartOf="@+id/textView"
+           app:layout_constraintHorizontal_bias="0.0"
+           app:layout_constraintStart_toStartOf="@+id/inputPassword"
+           app:layout_constraintTop_toBottomOf="@+id/inputPassword" />
+
+       <Button
+           android:id="@+id/register"
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="20dp"
+           android:background="@drawable/btn_start"
+           android:text="Update"
+           android:textColor="#5d5d5a"
+           android:textSize="18sp"
+           android:textStyle="bold"
+           app:layout_constraintEnd_toEndOf="@+id/inputPassword"
+           app:layout_constraintHorizontal_bias="0.0"
+           app:layout_constraintStart_toStartOf="@+id/toggleButton1"
+           app:layout_constraintTop_toBottomOf="@+id/toggleButton1" />
+       <TextView
+           android:id="@+id/textView"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="16dp"
+           android:layout_marginBottom="4dp"
+           android:text="Ask me pin on start up "
+           android:textSize="15sp"
+           app:layout_constraintBottom_toBottomOf="@+id/toggleButton1"
+           app:layout_constraintEnd_toEndOf="@+id/inputPassword"
+           app:layout_constraintHorizontal_bias="0.95"
+           app:layout_constraintStart_toStartOf="@+id/register"
+           app:layout_constraintTop_toBottomOf="@+id/inputPassword"
+           app:layout_constraintVertical_bias="1.0" />
+
+   </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
