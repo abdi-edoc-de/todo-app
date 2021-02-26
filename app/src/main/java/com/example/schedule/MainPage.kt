@@ -15,6 +15,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
+import androidx.viewbinding.ViewBinding
 import com.example.schedule.DAOs.TaskDAO
 import com.example.schedule.databinding.FragmentMainPageBinding
 import com.example.schedule.models.Task
@@ -27,6 +28,8 @@ class MainPage :Fragment() {
     private lateinit var db: AppDatabase
     private lateinit var tasks: MutableList<Task>
     private lateinit var adapter: TaskAdapter
+    private lateinit var binding: FragmentMainPageBinding
+    private lateinit var horizontalCalendar: HorizontalCalendar
     // TODO: Rename and change types of parameters
 
 
@@ -37,7 +40,7 @@ class MainPage :Fragment() {
         ).allowMainThreadQueries().build()
         val userDAO = db.userDao()
         val user = userDAO.getAll().firstOrNull()
-        if (user != null) {
+        user?.let {
             user.hasLoggedIn = false
             userDAO.updateUser(user)
         }
@@ -49,7 +52,7 @@ class MainPage :Fragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        var binding: FragmentMainPageBinding =DataBindingUtil.inflate(
+        binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_main_page, container, false
         )
 
@@ -65,7 +68,7 @@ class MainPage :Fragment() {
                 val endDate = Calendar.getInstance()
                 endDate.add(Calendar.MONTH, 3)
 
-                val horizontalCalendar: HorizontalCalendar = HorizontalCalendar.Builder(
+                horizontalCalendar = HorizontalCalendar.Builder(
                         binding.root,
                         R.id.calendarView
                 )
@@ -75,7 +78,7 @@ class MainPage :Fragment() {
                 horizontalCalendar.calendarListener = object : HorizontalCalendarListener() {
                     @RequiresApi(Build.VERSION_CODES.O)
                     override fun onDateSelected(date: Calendar?, position: Int) {
-                        Toast.makeText(activity, date.toString(), Toast.LENGTH_LONG).show()
+//                        Toast.makeText(activity, date.toString(), Toast.LENGTH_LONG).show()
                         //remove all the tasks and add new ones
                         tasks.removeIf { true }
                         val calInst = Calendar.getInstance()
@@ -105,17 +108,6 @@ class MainPage :Fragment() {
         }
 
 
-        val taskListView = binding.TaskList
-        val taskDao = db.taskDao()
-        populateDB(taskDao)
-        val calInst = Calendar.getInstance()
-        calInst.time = horizontalCalendar.selectedDate.time
-        calInst.add(Calendar.DATE, 1)
-        tasks = taskDao.getAllBetweenDates(horizontalCalendar.selectedDate.time, calInst.time).toMutableList()
-        adapter = TaskAdapter(tasks)
-        taskListView.adapter = adapter
-        taskListView.layoutManager = LinearLayoutManager(requireContext())
-
         // this block is for navigation to schedule and profile
 
         binding.profile.setOnClickListener{
@@ -138,7 +130,16 @@ class MainPage :Fragment() {
 
     override fun onStart() {
         super.onStart()
-
+        val taskListView = binding.TaskList
+        val taskDao = db.taskDao()
+        populateDB(taskDao)
+        val calInst = Calendar.getInstance()
+        calInst.time = Date()
+        calInst.add(Calendar.DATE, 1)
+        tasks = taskDao.getAllBetweenDates(Date(), calInst.time).toMutableList()
+        adapter = TaskAdapter(tasks)
+        taskListView.adapter = adapter
+        taskListView.layoutManager = LinearLayoutManager(requireContext())
     }
 
     private fun populateDB(taskDao: TaskDAO) {

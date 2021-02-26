@@ -3,12 +3,17 @@ package com.example.schedule
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.room.Room
 import com.example.schedule.databinding.FragmentProfileBinding
+import com.example.schedule.models.User
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -23,6 +28,7 @@ import com.philjay.circledisplay.CircleDisplay
 
 class Profile : Fragment() {
     // TODO: Rename and change types of parameters
+    private lateinit var db: AppDatabase
 
 private lateinit var binding:FragmentProfileBinding;
     @SuppressLint("UseRequireInsteadOfGet")
@@ -88,6 +94,27 @@ private lateinit var binding:FragmentProfileBinding;
         chart1.animate()
 
 
+        db = Room.databaseBuilder(
+            requireActivity(), AppDatabase::class.java, "schedule-db"
+        ).allowMainThreadQueries().build()
+        val user = db.userDao().getAll().first()
+
+        binding.inputEmail.hint = user.username
+
+        binding.toggleButton1.isChecked = user.askOnStart == true
+
+        binding.register.setOnClickListener { view ->
+            val pin = binding.inputPassword.text?.toString()
+            (!pin.isNullOrBlank()).let {
+                pin?.toInt()?.let { user.pin = it }
+            }
+            user.askOnStart = binding.toggleButton1.isChecked
+            binding.inputEmail.text?.toString()?.let { email -> (!email.isNullOrBlank()).let {user.username = email }}
+            db.userDao().updateUser(user)
+            Log.w("MainActivity", user.toString())
+            Toast.makeText(requireContext(), "Updated settings", Toast.LENGTH_SHORT).show()
+            view.findNavController().popBackStack()
+        }
 
 
 //the green ring chart

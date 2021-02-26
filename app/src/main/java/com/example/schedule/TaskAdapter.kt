@@ -13,8 +13,8 @@ import java.time.format.DateTimeFormatter
 class TaskAdapter(private val taskLists: List<Task>): RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
 
     inner class ViewHolder(listItemView: View): RecyclerView.ViewHolder(listItemView){
-        val titleView = itemView.findViewById<TextView>(R.id.taskTitle)
-        val dateView = itemView.findViewById<TextView>(R.id.taskDate)
+        val titleView: TextView = itemView.findViewById<TextView>(R.id.taskTitle)
+        val dateView: TextView = itemView.findViewById<TextView>(R.id.taskDate)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

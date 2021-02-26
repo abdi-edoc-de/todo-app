@@ -14,7 +14,8 @@ data class Task(
     @ColumnInfo(name = "title") var title: String?,
     @ColumnInfo(name = "start_date") var startDate: Date?,
     @ColumnInfo(name = "end_date") var endDate: Date?,
-    @ColumnInfo(name = "notes") val notes: String?
+    @ColumnInfo(name = "notes") val notes: String?,
+    @ColumnInfo(name = "sub_tasks") var subTasks: List<Pair<String, Boolean>>
 ) {
 
     companion object {
@@ -29,7 +30,8 @@ data class Task(
                     "Task ${id++}",
                     startDate,
                     currDate.time,
-                    "These are trying times right now $id"
+                    "These are trying times right now $id",
+                    listOf(Pair("Refill water", true), Pair("Burn calories", false))
                 )
             }
         }

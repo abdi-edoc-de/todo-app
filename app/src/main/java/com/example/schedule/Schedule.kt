@@ -4,16 +4,22 @@ import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.RequiresApi
+import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.room.Room
 import com.example.schedule.Schedule.Schedule
 import com.example.schedule.databinding.FragmentScheduleBinding
+import com.example.schedule.models.Task
 import java.util.*
 
 
@@ -31,6 +37,8 @@ class Schedule : Fragment() {
     // TODO: Rename and change types of parameters
     data class Schedule(val Date: String, val startTime: String, val finishTime: String, val title:String, val note:String)
 
+    private lateinit var db: AppDatabase
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -84,8 +92,33 @@ checkIfValidAndRead()
             mDisplayDate.text = date
         }
 
+        db = Room.databaseBuilder(
+            requireActivity(), AppDatabase::class.java, "schedule-db"
+        ).allowMainThreadQueries().build()
 
+        binding.save.setOnClickListener {
+            val title = binding.title.text.toString()
+            val startDate = Calendar.getInstance()
+            startDate.set(Calendar.HOUR, tpFrom.hour)
+            startDate.set(Calendar.MINUTE, tpFrom.minute)
 
+            val endDate = Calendar.getInstance()
+            endDate.set(Calendar.HOUR, tpTo.hour)
+            endDate.set(Calendar.MINUTE, tpTo.minute)
+
+            val notes = binding.editTextTextMultiLine.text.toString()
+
+            val subtaskList = layoutList.children.map {
+                return@map Pair(it.findViewById<EditText>(R.id.edit_task).text.toString(), false)
+            }.filter {
+                it.first.isNotEmpty()
+            }.toList()
+
+            val task = Task(UUID.randomUUID(), title, startDate.time, endDate.time, notes, subtaskList)
+            db.taskDao().insertTask(task)
+            Toast.makeText(requireContext(), "We have added your task", Toast.LENGTH_SHORT).show()
+            it.findNavController().popBackStack()
+        }
 
         return binding.root
     }
@@ -107,6 +140,7 @@ checkIfValidAndRead()
 
         return result
     }
+
 
 
 
