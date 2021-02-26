@@ -51,7 +51,7 @@ class Login : Fragment() {
                         Toast.makeText(activity,"Correct",Toast.LENGTH_LONG).show()
                         user.hasLoggedIn = true
                         userDAO.updateUser(user)
-                        findNavController().navigate(LoginDirections.actionLogin2ToMainPage2("abdi"))
+                        findNavController().navigate(LoginDirections.actionLogin2ToMainPage2())
                     }else{
                         Toast.makeText(activity,"No correct",Toast.LENGTH_LONG).show()
                     }

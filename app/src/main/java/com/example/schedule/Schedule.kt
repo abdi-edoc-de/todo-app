@@ -9,9 +9,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.example.schedule.Schedule.Schedule
 import com.example.schedule.databinding.FragmentScheduleBinding
 import java.util.*
 
@@ -22,16 +23,17 @@ import java.util.*
  * create an instance of this fragment.
  */
 class Schedule : Fragment() {
+    private lateinit var layoutList:LinearLayout;
     private lateinit var datePickerDialog:DatePickerDialog;
     private lateinit var mDisplayDate:Button;
     private lateinit var binding: FragmentScheduleBinding
     private lateinit var mDateSetListener: OnDateSetListener;
     // TODO: Rename and change types of parameters
-
+    data class Schedule(val Date: String, val startTime: String, val finishTime: String, val title:String, val note:String)
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         binding =DataBindingUtil.inflate(inflater, R.layout.fragment_schedule, container, false)
@@ -41,13 +43,21 @@ class Schedule : Fragment() {
         tpFrom.setIs24HourView(true)
         tpTo.setIs24HourView(true)
 
+        layoutList =binding.layoutList
+        binding.addTask.setOnClickListener {
+            addView()
+        }
+
+
 
 //        this code block is for date picker
         initDatePicker()
         mDisplayDate=binding.datePickerButton
         mDisplayDate.text = getTodaysDate()
 
-
+        binding.save.setOnClickListener {
+checkIfValidAndRead()
+        }
 
 
 
@@ -57,10 +67,11 @@ class Schedule : Fragment() {
             val month = cal[Calendar.MONTH]
             val day = cal[Calendar.DAY_OF_MONTH]
             val dialog = DatePickerDialog(
-                    requireContext(),
-                    android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                    mDateSetListener,
-                    year, month, day)
+                requireContext(),
+                android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                mDateSetListener,
+                year, month, day
+            )
             dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog.show()
         }
@@ -69,7 +80,7 @@ class Schedule : Fragment() {
             var month = month
             month = month + 1
             Log.d("TAG", "onDateSet: mm/dd/yyy: $month/$day/$year")
-            val date = makeDateString(day,month,year)
+            val date = makeDateString(day, month, year)
             mDisplayDate.text = date
         }
 
@@ -79,10 +90,44 @@ class Schedule : Fragment() {
         return binding.root
     }
 
+    private fun checkIfValidAndRead(): Boolean {
+        var result = true
+        for (i in 0 until layoutList.childCount) {
+            val cricketerView = layoutList.getChildAt(i)
+            val editTextName =
+                cricketerView.findViewById<View>(R.id.edit_task) as EditText
+            if (editTextName.text.toString() != "") {
+                Toast.makeText(requireActivity(), editTextName.text.toString(), Toast.LENGTH_SHORT).show()
+            } else {
+                result = false
+                break
+            }
+
+        }
+
+        return result
+    }
+
+
+
+    private fun addView() {
+        val cricketerView: View = layoutInflater.inflate(R.layout.row_add_input, null, false)
+        val editText = cricketerView.findViewById<View>(R.id.edit_task) as EditText
+        val imageClose = cricketerView.findViewById<View>(R.id.image_remove) as ImageView
+
+        imageClose.setOnClickListener {
+            removeTaskView(cricketerView)
+            }
+        layoutList.addView(cricketerView)
+    }
+
+    private fun removeTaskView(cricketerView: View) {
+        layoutList.removeView(cricketerView)
+
+    }
+
     private fun initDatePicker() {
        //datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-
-
 
 
     }
@@ -102,7 +147,7 @@ class Schedule : Fragment() {
     }
     private fun makeDateString(day: Int, month: Int, year: Int): String {
         var y=year.toString()
-        return getMonthFormat(month) + " " + day + " " + y[y.length-2]+y[y.length-1]
+        return getMonthFormat(month) + " " + day + " " + y[y.length - 2]+y[y.length - 1]
     }
     private fun getMonthFormat(month: Int): String {
         if (month == 1) return "JAN"
@@ -118,7 +163,9 @@ class Schedule : Fragment() {
         if (month == 11) return "NOV"
         return if (month == 12) "DEC" else "JAN"
 
-        //default should never happen
     }
+
+
+
 
 }

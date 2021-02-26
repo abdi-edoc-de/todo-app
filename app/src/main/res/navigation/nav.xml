@@ -16,9 +16,7 @@
         <action
             android:id="@+id/action_mainPage_to_schedule"
             app:destination="@id/schedule" />
-        <argument
-            android:name="name"
-            app:argType="string" />
+
 
     </fragment>
     <fragment
@@ -27,9 +25,7 @@
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
 
-        <argument
-            android:name="na"
-            app:argType="string" />
+
     </fragment>
     <fragment
         android:id="@+id/schedule"

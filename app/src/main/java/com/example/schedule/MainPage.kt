@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
@@ -87,6 +88,7 @@ class MainPage :Fragment() {
 
 
 //      this block is for navigation to registration and login if the user dose not already
+//        i added false to the if conditions for now but when we integrate database the conditions will be replaced
 //        var arg=RegisterArgs
 
         db = Room.databaseBuilder(
@@ -116,16 +118,16 @@ class MainPage :Fragment() {
 
         // this block is for navigation to schedule and profile
 
-//        binding.profile.setOnClickListener{
-////            Navigation.createNavigateOnClickListener(R.id.action_mainPage_to_profile2)
-//            it.findNavController().navigate(MainPageDirections.actionMainPageToProfile("abdi"))
-//            Toast.makeText(activity, "New profile: ", Toast.LENGTH_LONG).show();
-//        }
-//        binding.schedul.setOnClickListener{
-//            Toast.makeText(activity, "profile ", Toast.LENGTH_LONG).show();
-//            it.findNavController().navigate(R.id.action_mainPage_to_schedule)
-////            Navigation.createNavigateOnClickListener(R.id.action_mainPage_to_schedule)
-//        }
+        binding.profile.setOnClickListener{
+//            Navigation.createNavigateOnClickListener(R.id.action_mainPage_to_profile2)
+            it.findNavController().navigate(R.id.action_mainPage_to_profile)
+            Toast.makeText(activity, "New profile: ", Toast.LENGTH_LONG).show();
+        }
+        binding.fab.setOnClickListener{
+            Toast.makeText(activity, "shedule ", Toast.LENGTH_LONG).show();
+            it.findNavController().navigate(R.id.action_mainPage_to_schedule)
+//            Navigation.createNavigateOnClickListener(R.id.action_mainPage_to_schedule)
+        }
 
 
 
