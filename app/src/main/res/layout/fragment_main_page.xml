@@ -103,7 +103,37 @@
                     android:orientation="vertical"
                    >
 
+                    <LinearLayout
+                        android:id="@+id/subCinfirmation"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginHorizontal="15dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="148dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/card_background"
+                        android:orientation="vertical">
 
+                        <TextView
+                            android:id="@+id/taskTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/lib_key_padding"
+                            android:layout_marginTop="10dp"
+                            android:paddingTop="@dimen/lib_indicator_padding"
+                            android:layout_weight="1"
+                            android:text=""
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/lib_key_text_size" />
+
+                        <TextView
+                            android:id="@+id/taskDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="50dp"
+                            android:textColor="@color/white"
+                            android:text="" />
+                    </LinearLayout>
 
 
 

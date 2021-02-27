@@ -7,7 +7,6 @@
     <!-- TODO: Update blank fragment layout -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-
         android:layout_height="match_parent">
 
         <com.chaos.view.PinView
@@ -27,25 +26,230 @@
             app:cursorWidth="0dp"
             app:hideLineWhenFilled="true"
             app:itemCount="4"
-            app:itemHeight="80dp"
+            app:itemHeight="60dp"
             app:itemRadius="4dp"
             app:itemSpacing="10dp"
             app:itemWidth="75dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.499"
+            app:layout_constraintVertical_bias="0.4"
             app:lineColor="#453"
             app:lineWidth="2dp"
             app:viewType="rectangle">
-            <requestFocus />
+
+             />
         </com.chaos.view.PinView>
 
+        <LinearLayout
+            android:id="@+id/num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="32dp"
+            android:layout_marginBottom="32dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.953"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.805">
 
 
-<!--        <com.kevalpatel.passcodeview.PinView-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="0dp"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/pin"
+                app:layout_constraintVertical_bias="0.232">
+
+                <Button
+                    android:id="@+id/one"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="7dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/num"
+                    android:maxWidth="100dp"
+                    android:text="1"
+                    android:textColor="@color/black"
+                    android:textSize="40sp"
+                    android:theme="@style/num"></Button>
+
+                <Button
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_weight="2"
+                    android:background="@drawable/num"
+                    android:maxWidth="100dp"
+                    android:text="2"
+                    android:textColor="@color/black"
+                    android:textSize="40sp"></Button>
+
+                <Button
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="7dp"
+                    android:layout_weight="3"
+                    android:background="@drawable/num"
+                    android:maxWidth="100dp"
+                    android:text="3"
+                    android:textColor="@color/black"
+                    android:textSize="40sp"></Button>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="0dp"
+                android:layout_marginVertical="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/pin"
+                app:layout_constraintVertical_bias="0.232">
+
+                <Button
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="7dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/num"
+                    android:maxWidth="100dp"
+                    android:text="4"
+                    android:textColor="@color/black"
+                    android:textSize="40sp"
+                    android:theme="@style/num"></Button>
+
+                <Button
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/num"
+                    android:maxWidth="100dp"
+                    android:text="5"
+                    android:textColor="@color/black"
+                    android:textSize="40sp"></Button>
+
+                <Button
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="7dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/num"
+                    android:maxWidth="100dp"
+                    android:text="6"
+                    android:textColor="@color/black"
+                    android:textSize="40sp"></Button>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="0dp"
+                android:layout_marginVertical="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/pin"
+                app:layout_constraintVertical_bias="0.232">
+
+                <Button
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="7dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/num"
+                    android:maxWidth="100dp"
+                    android:text="7"
+                    android:textColor="@color/black"
+                    android:textSize="40sp"
+                    android:theme="@style/num"></Button>
+
+                <Button
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/num"
+                    android:maxWidth="100dp"
+                    android:text="8"
+                    android:textColor="@color/black"
+                    android:textSize="40sp"></Button>
+
+                <Button
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="7dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/num"
+                    android:maxWidth="100dp"
+                    android:text="9"
+                    android:textColor="@color/black"
+                    android:textSize="40sp"></Button>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="0dp"
+                android:layout_marginVertical="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/pin"
+                app:layout_constraintVertical_bias="0.232">
+
+                <Button
+                    android:id="@+id/none"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+
+                    android:layout_marginHorizontal="7dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:maxWidth="100dp"
+                    android:textColor="@color/black"
+                    android:textSize="40sp"
+                    android:theme="@style/num"></Button>
+
+                <Button
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/num"
+                    android:maxWidth="100dp"
+                    android:text="0"
+                    android:textColor="@color/black"
+                    android:textSize="40sp"></Button>
+
+                <Button
+                    android:id="@+id/del"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginHorizontal="7dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/numberkeyboard_ic_backspace_normal"
+                    android:maxWidth="100dp"
+                    android:textSize="40sp"></Button>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <!--        <com.kevalpatel.passcodeview.PinView-->
 <!--            android:id="@+id/pin_view"-->
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="match_parent"-->

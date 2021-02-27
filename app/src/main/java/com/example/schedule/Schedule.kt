@@ -145,14 +145,14 @@ checkIfValidAndRead()
 
 
     private fun addView() {
-        val cricketerView: View = layoutInflater.inflate(R.layout.row_add_input, null, false)
-        val editText = cricketerView.findViewById<View>(R.id.edit_task) as EditText
-        val imageClose = cricketerView.findViewById<View>(R.id.image_remove) as ImageView
+        val edit: View = layoutInflater.inflate(R.layout.row_add_input, null, false)
+        val editText = edit.findViewById<View>(R.id.edit_task) as EditText
+        val imageClose = edit.findViewById<View>(R.id.image_remove) as ImageView
 
         imageClose.setOnClickListener {
-            removeTaskView(cricketerView)
+            removeTaskView(edit)
             }
-        layoutList.addView(cricketerView)
+        layoutList.addView(edit)
     }
 
     private fun removeTaskView(cricketerView: View) {

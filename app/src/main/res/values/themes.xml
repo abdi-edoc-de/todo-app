@@ -29,4 +29,18 @@
         <item name="android:textColorPrimary">#fff4e3</item>
         <item name="android:textColor">#fff4e3</item>
     </style>
+
+<!--    <style name="num">-->
+<!--        <item name="background">-->
+<!--            @drawable/num-->
+<!--        </item>-->
+<!--        <item name="android:layout_marginHorizontal">-->
+<!--            -->
+<!--        </item>-->
+<!--    </style>-->
 </resources>
+<!--    android:background="@drawable/num"-->
+
+<!--    android:layout_marginHorizontal="6dp"-->
+<!--    android:textColor="@color/black"-->
+<!--    android:textSize="40sp"-->

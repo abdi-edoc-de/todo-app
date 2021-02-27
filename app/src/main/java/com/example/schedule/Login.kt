@@ -1,6 +1,5 @@
 package com.example.schedule
 
-import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,7 +7,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
+import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -35,7 +35,18 @@ class Login : Fragment() {
         val binding: FragmentLoginBinding =DataBindingUtil.inflate(
             inflater, R.layout.fragment_login, container, false
         )
+
+        val num:LinearLayout=binding.num
+        var g:LinearLayout= num.getChildAt(0) as LinearLayout;
+        var innerLinaer:LinearLayout;
+        var pass:String="";
+
+
+
+
+
         val pin=binding.pin
+
         val check: TextWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
@@ -61,18 +72,46 @@ class Login : Fragment() {
                 return pin.text.toString().trim { it <= ' ' }.length
             }
         }
+        binding.one.setOnClickListener {
+            pin.setText("1")
+        }
+        for(i in 0..num.childCount-1){
+            Log.d("last","last")
+            innerLinaer=num.getChildAt(i) as LinearLayout
+            for (j in 0..innerLinaer.childCount-1 ){
+                innerLinaer.getChildAt(j).setOnClickListener{ it as Button
+
+                    if(it.id==binding.del.id){
+                        if(pass.length>0){
+                            pass=pass.substring(0,pass.length-1)
+                            pin.setText(pass)
+                        }
+                    }else if(it.id==binding.none.id){
+                        pin.setText(pass)
+                    }
+                    else{
+                        pass+=it.text
+                        pin.setText(pass)
+                    }
+                }
+            }
+        }
         pin.addTextChangedListener(check)
+
+
 
         //this is to return the view object
         return binding.root
     }
 
 
-    fun showSoftKeyboard(view: View) {
-        if (view.requestFocus()) {
-            val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
-        }
-    }
+//    fun showSoftKeyboard(view: View) {
+//        if (view.requestFocus()) {
+//            val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+//        }
+//    }
 
 }
+
+

@@ -1,6 +1,9 @@
 package com.example.schedule
 
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -15,7 +18,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
-import androidx.viewbinding.ViewBinding
 import com.example.schedule.DAOs.TaskDAO
 import com.example.schedule.databinding.FragmentMainPageBinding
 import com.example.schedule.models.Task
@@ -55,6 +57,13 @@ class MainPage :Fragment() {
         binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_main_page, container, false
         )
+        binding.subCinfirmation.setOnClickListener{
+            val popUp:Dialog = Dialog(requireContext())
+            popUp.setContentView(R.layout.fragment_subtask_confirmation);
+            popUp.getWindow()?.setBackgroundDrawable( ColorDrawable(Color.TRANSPARENT));
+
+            popUp.show()
+        }
 
 
 
@@ -138,6 +147,12 @@ class MainPage :Fragment() {
         calInst.add(Calendar.DATE, 1)
         tasks = taskDao.getAllBetweenDates(Date(), calInst.time).toMutableList()
         adapter = TaskAdapter(tasks)
+        Log.d("Last","Last")
+//        adapter.getCard().setOnClickListener{
+//            var popUp: DialogFragment = DialogFragment()
+//            popUp.show(parentFragmentManager,"dont")
+//        }
+        Log.d("first","first")
         taskListView.adapter = adapter
         taskListView.layoutManager = LinearLayoutManager(requireContext())
     }
