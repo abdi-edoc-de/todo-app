@@ -11,6 +11,8 @@ import androidx.navigation.findNavController
 import androidx.room.Room
 import com.example.schedule.databinding.FragmentRegisterBinding
 import com.example.schedule.models.User
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 //import com.example.shedule.databinding.FragmentRegisterBinding
 
@@ -36,13 +38,13 @@ class Register : Fragment() {
         )
         binding.register.setOnClickListener{
             Toast.makeText(activity,"register", Toast.LENGTH_LONG).show()
-            val db = Room.databaseBuilder(
-                requireActivity(), AppDatabase::class.java, "schedule-db"
-            ).allowMainThreadQueries().build()
-            // TODO: Input validation of some sort
-            val user = User(uid = 1, username = binding.inputEmail.text.toString(), pin = binding.inputPassword.text.toString().toInt(), askOnStart = binding.toggleButton1.isChecked, hasLoggedIn = true)
-            db.userDao().insertUser(user)
-            it.findNavController().navigate(RegisterDirections.actionRegister2ToMainPage2())
+            GlobalScope.launch {
+                val db = AppDatabase.getDatabase(requireContext())
+                // TODO: Input validation of some sort
+                val user = User(uid = 1, username = binding.inputEmail.text.toString(), pin = binding.inputPassword.text.toString().toInt(), askOnStart = binding.toggleButton1.isChecked, hasLoggedIn = true)
+                db.userDao().insertUser(user)
+                it.findNavController().navigate(RegisterDirections.actionRegister2ToMainPage2())
+            }
         }
         return binding.root
     }

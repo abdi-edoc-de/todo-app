@@ -23,6 +23,8 @@ import com.example.schedule.databinding.FragmentMainPageBinding
 import com.example.schedule.models.Task
 import devs.mulham.horizontalcalendar.HorizontalCalendar
 import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.*
 
 class MainPage :Fragment() {
@@ -37,14 +39,14 @@ class MainPage :Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        db = Room.databaseBuilder(
-            requireActivity(), AppDatabase::class.java, "schedule-db"
-        ).allowMainThreadQueries().build()
-        val userDAO = db.userDao()
-        val user = userDAO.getAll().firstOrNull()
-        user?.let {
-            user.hasLoggedIn = false
-            userDAO.updateUser(user)
+        GlobalScope.launch {
+            db = AppDatabase.getDatabase(requireContext())
+            val userDAO = db.userDao()
+            val user = userDAO.getAll().firstOrNull()
+            user?.let {
+                user.hasLoggedIn = false
+                userDAO.updateUser(user)
+            }
         }
     }
 
@@ -93,8 +95,12 @@ class MainPage :Fragment() {
                         val calInst = Calendar.getInstance()
                         calInst.time = horizontalCalendar.selectedDate.time
                         calInst.add(Calendar.DATE, 1)
-                        tasks.addAll(db.taskDao().getAllBetweenDates(horizontalCalendar.selectedDate.time, calInst.time))
-                        adapter.notifyDataSetChanged()
+                        GlobalScope.launch {
+                            tasks.addAll(db.taskDao().getAllBetweenDates(horizontalCalendar.selectedDate.time, calInst.time))
+                            requireActivity().runOnUiThread{
+                                adapter.notifyDataSetChanged()
+                            }
+                        }
                     }
                 }
 
@@ -103,18 +109,19 @@ class MainPage :Fragment() {
 //        i added false to the if conditions for now but when we integrate database the conditions will be replaced
 //        var arg=RegisterArgs
 
-        db = Room.databaseBuilder(
-                requireActivity(), AppDatabase::class.java, "schedule-db"
-        ).allowMainThreadQueries().build()
-        val user = db.userDao().getAll()
-        if(user.isNotEmpty() && user.first().askOnStart == true && user.first().hasLoggedIn == false){
-            Log.w("MainPage", "Got to this bit")
-            findNavController().navigate(R.id.login2)
-        }else if (user.isEmpty()){
-            findNavController().navigate(R.id.register2)
-        } else {
-            Log.w("MainPage", "So we got to the else")
+        GlobalScope.launch {
+            db = AppDatabase.getDatabase(requireContext())
+            val user = db.userDao().getAll()
+            if(user.isNotEmpty() && user.first().askOnStart == true && user.first().hasLoggedIn == false){
+                Log.w("MainPage", "Got to this bit")
+                findNavController().navigate(R.id.login2)
+            }else if (user.isEmpty()){
+                findNavController().navigate(R.id.register2)
+            } else {
+                Log.w("MainPage", "So we got to the else")
+            }
         }
+
 
 
         // this block is for navigation to schedule and profile
@@ -140,21 +147,24 @@ class MainPage :Fragment() {
     override fun onStart() {
         super.onStart()
         val taskListView = binding.TaskList
-        val taskDao = db.taskDao()
-        populateDB(taskDao)
-        val calInst = Calendar.getInstance()
-        calInst.time = Date()
-        calInst.add(Calendar.DATE, 1)
-        tasks = taskDao.getAllBetweenDates(Date(), calInst.time).toMutableList()
-        adapter = TaskAdapter(tasks)
-        Log.d("Last","Last")
+        GlobalScope.launch {
+            db = AppDatabase.getDatabase(requireContext())
+            val taskDao = db.taskDao()
+            populateDB(taskDao)
+            val calInst = Calendar.getInstance()
+            calInst.time = Date()
+            calInst.add(Calendar.DATE, 1)
+            tasks = taskDao.getAllBetweenDates(Date(), calInst.time).toMutableList()
+            adapter = TaskAdapter(tasks, requireContext())
+            Log.d("Last","Last")
+            Log.d("first","first")
+            taskListView.adapter = adapter
+            taskListView.layoutManager = LinearLayoutManager(requireContext())
+        }
 //        adapter.getCard().setOnClickListener{
 //            var popUp: DialogFragment = DialogFragment()
 //            popUp.show(parentFragmentManager,"dont")
 //        }
-        Log.d("first","first")
-        taskListView.adapter = adapter
-        taskListView.layoutManager = LinearLayoutManager(requireContext())
     }
 
     private fun populateDB(taskDao: TaskDAO) {

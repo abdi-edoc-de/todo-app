@@ -19,6 +19,8 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.philjay.circledisplay.CircleDisplay
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 //import com.example.shedule.databinding.FragmentProfileBinding
 
@@ -93,28 +95,27 @@ private lateinit var binding:FragmentProfileBinding;
         chart1.setDrawSliceText(false)
         chart1.animate()
 
+        var user: User
+        GlobalScope.launch {
+            db = AppDatabase.getDatabase(requireContext())
+            user = db.userDao().getAll().first()
 
-        db = Room.databaseBuilder(
-            requireActivity(), AppDatabase::class.java, "schedule-db"
-        ).allowMainThreadQueries().build()
-        val user = db.userDao().getAll().first()
+            binding.inputEmail.hint = user.username
 
-        binding.inputEmail.hint = user.username
+            binding.register.setOnClickListener { view ->
+                val pin = binding.inputPassword.text?.toString()
+                (!pin.isNullOrBlank()).let {
+                    pin?.toInt()?.let { user.pin = it }
+                }
+                user.askOnStart = binding.toggleButton1.isChecked
+                binding.inputEmail.text?.toString()?.let { email -> (!email.isNullOrBlank()).let {user.username = email }}
 
-        binding.toggleButton1.isChecked = user.askOnStart == true
-
-        binding.register.setOnClickListener { view ->
-            val pin = binding.inputPassword.text?.toString()
-            (!pin.isNullOrBlank()).let {
-                pin?.toInt()?.let { user.pin = it }
+                GlobalScope.launch { db.userDao().updateUser(user) }
+                Log.w("MainActivity", user.toString())
+                view.findNavController().popBackStack()
             }
-            user.askOnStart = binding.toggleButton1.isChecked
-            binding.inputEmail.text?.toString()?.let { email -> (!email.isNullOrBlank()).let {user.username = email }}
-            db.userDao().updateUser(user)
-            Log.w("MainActivity", user.toString())
-            Toast.makeText(requireContext(), "Updated settings", Toast.LENGTH_SHORT).show()
-            view.findNavController().popBackStack()
         }
+
 
 
 //the green ring chart

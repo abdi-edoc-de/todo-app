@@ -26,9 +26,6 @@ class Converters {
     @TypeConverter
     fun listFromString(value: String?): List<Pair<String, Boolean>>{
         val result = mutableListOf<Pair<String, Boolean>>()
-        value?.let {
-            Log.w("Converters", value)
-        }
         value?.split("^^")?.forEach {
             val item = it.split("||")
             if (item.size == 2) {

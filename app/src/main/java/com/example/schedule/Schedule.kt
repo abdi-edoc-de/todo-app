@@ -16,10 +16,11 @@ import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import androidx.room.Room
 import com.example.schedule.Schedule.Schedule
 import com.example.schedule.databinding.FragmentScheduleBinding
 import com.example.schedule.models.Task
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.*
 
 
@@ -38,6 +39,7 @@ class Schedule : Fragment() {
     data class Schedule(val Date: String, val startTime: String, val finishTime: String, val title:String, val note:String)
 
     private lateinit var db: AppDatabase
+    private lateinit var dateSelected: Calendar
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -86,25 +88,25 @@ checkIfValidAndRead()
 
         mDateSetListener = OnDateSetListener { datePicker, year, month, day ->
             var month = month
-            month = month + 1
+            month += 1
             Log.d("TAG", "onDateSet: mm/dd/yyy: $month/$day/$year")
+            dateSelected = Calendar.getInstance()
+            dateSelected.set(year, month - 1, day)
+
             val date = makeDateString(day, month, year)
             mDisplayDate.text = date
         }
 
-        db = Room.databaseBuilder(
-            requireActivity(), AppDatabase::class.java, "schedule-db"
-        ).allowMainThreadQueries().build()
-
         binding.save.setOnClickListener {
             val title = binding.title.text.toString()
-            val startDate = Calendar.getInstance()
-            startDate.set(Calendar.HOUR, tpFrom.hour)
-            startDate.set(Calendar.MINUTE, tpFrom.minute)
-
-            val endDate = Calendar.getInstance()
-            endDate.set(Calendar.HOUR, tpTo.hour)
-            endDate.set(Calendar.MINUTE, tpTo.minute)
+            dateSelected.set(Calendar.HOUR, tpFrom.hour)
+            dateSelected.set(Calendar.MINUTE, tpFrom.minute)
+            val startDate = dateSelected.time
+            Log.w("StartDate", startDate.toString())
+            dateSelected.set(Calendar.HOUR, tpTo.hour)
+            dateSelected.set(Calendar.MINUTE, tpTo.minute)
+            val endDate = dateSelected.time
+            Log.w("EndDate", endDate.toString())
 
             val notes = binding.editTextTextMultiLine.text.toString()
 
@@ -114,10 +116,12 @@ checkIfValidAndRead()
                 it.first.isNotEmpty()
             }.toList()
 
-            val task = Task(UUID.randomUUID(), title, startDate.time, endDate.time, notes, subtaskList)
-            db.taskDao().insertTask(task)
-            Toast.makeText(requireContext(), "We have added your task", Toast.LENGTH_SHORT).show()
-            it.findNavController().popBackStack()
+            val task = Task(UUID.randomUUID(), title, startDate, endDate, notes, subtaskList)
+            GlobalScope.launch {
+                db = AppDatabase.getDatabase(requireContext())
+                db.taskDao().insertTask(task)
+                it.findNavController().popBackStack()
+            }
         }
 
         return binding.root
@@ -165,7 +169,6 @@ checkIfValidAndRead()
 
 
     }
-
     private fun getTodaysDate(): String? {
         val cal = Calendar.getInstance()
         val year = cal[Calendar.YEAR]

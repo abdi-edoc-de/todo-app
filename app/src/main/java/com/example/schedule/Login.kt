@@ -15,8 +15,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.room.Room
 import com.example.schedule.databinding.FragmentLoginBinding
-
-
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 //import com.hanks.passcodeview.PasscodeView
@@ -52,19 +52,16 @@ class Login : Fragment() {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (filterLongEnough()==4) {
-                    val db = Room.databaseBuilder(
-                        requireActivity(), AppDatabase::class.java, "schedule-db"
-                    ).allowMainThreadQueries().build()
-                    val userDAO = db.userDao()
-                    val user = userDAO.getAll().first()
-                    if(pin.text.toString().toInt() == user.pin){
-                        Log.e("LoginFragment", "LOGGING in")
-                        Toast.makeText(activity,"Correct",Toast.LENGTH_LONG).show()
-                        user.hasLoggedIn = true
-                        userDAO.updateUser(user)
-                        findNavController().navigate(LoginDirections.actionLogin2ToMainPage2())
-                    }else{
-                        Toast.makeText(activity,"No correct",Toast.LENGTH_LONG).show()
+                    GlobalScope.launch {
+                        val db = AppDatabase.getDatabase(requireContext())
+                        val userDAO = db.userDao()
+                        val user = userDAO.getAll().first()
+                        if(pin.text.toString().toInt() == user.pin){
+                            Log.e("LoginFragment", "LOGGING in")
+                            user.hasLoggedIn = true
+                            userDAO.updateUser(user)
+                            findNavController().navigate(LoginDirections.actionLogin2ToMainPage2())
+                        }
                     }
                 }
             }

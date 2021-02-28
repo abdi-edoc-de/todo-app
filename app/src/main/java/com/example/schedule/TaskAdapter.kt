@@ -42,7 +42,7 @@ class TaskAdapter(private val taskLists: List<Task>, private val context: Contex
         textView.text = taskItem.title
         val dateView = holder.dateView
         val timeFormat = SimpleDateFormat("hh:mm aa")
-        dateView.text = "${timeFormat.format(taskItem.startDate)}-${timeFormat.format(taskItem.endDate)}"
+        dateView.text = "${timeFormat.format(taskItem.startDate!!)}-${timeFormat.format(taskItem.endDate!!)}"
         card.setOnClickListener{
             var popUp: DialogFragment = DialogFragment()
             popUp.show((context as Fragment).parentFragmentManager, "dont")
