@@ -32,20 +32,6 @@ class MainPage :Fragment() {
     private lateinit var horizontalCalendar: HorizontalCalendar
     // TODO: Rename and change types of parameters
 
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        GlobalScope.launch {
-            db = AppDatabase.getDatabase(requireContext())
-            val userDAO = db.userDao()
-            val user = userDAO.getAll().firstOrNull()
-            user?.let {
-                user.hasLoggedIn = false
-                userDAO.updateUser(user)
-            }
-        }
-    }
-
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreateView(
 
@@ -104,19 +90,6 @@ class MainPage :Fragment() {
 //      this block is for navigation to registration and login if the user dose not already
 //        i added false to the if conditions for now but when we integrate database the conditions will be replaced
 //        var arg=RegisterArgs
-
-        GlobalScope.launch {
-            db = AppDatabase.getDatabase(requireContext())
-            val user = db.userDao().getAll()
-            if(user.isNotEmpty() && user.first().askOnStart == true && user.first().hasLoggedIn == false){
-                Log.w("MainPage", "Got to this bit")
-                findNavController().navigate(R.id.login2)
-            }else if (user.isEmpty()){
-                findNavController().navigate(R.id.register2)
-            } else {
-                Log.w("MainPage", "So we got to the else")
-            }
-        }
 
 
 
