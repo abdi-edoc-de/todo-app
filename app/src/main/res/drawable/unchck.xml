@@ -5,7 +5,7 @@
             <size
                 android:height="28dp"
                 android:width="28dp" />
-            <solid android:color="@color/cardview_dark_background" />
+            <solid android:color="@color/color_68AAFF" />
         </shape>
     </item>
 </layer-list>

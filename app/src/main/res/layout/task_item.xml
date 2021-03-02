@@ -23,7 +23,7 @@
                 android:paddingTop="@dimen/lib_indicator_padding"
                 android:layout_weight="1"
                 android:text=""
-                android:textColor="@color/white"
+                android:textColor="@color/default_text_color"
                 android:textSize="@dimen/lib_key_text_size" />
 
             <TextView
@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginStart="50dp"
-                android:textColor="@color/white"
+                android:textColor="@color/default_text_color"
                 android:text="" />
         </LinearLayout>
 
