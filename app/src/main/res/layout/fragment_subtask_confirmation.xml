@@ -8,6 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
+        android:background="@drawable/main_background"
        >
 
         <LinearLayout
@@ -19,13 +20,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="30sp"
-                android:text="Pop UP"
 
-                />
             <LinearLayout
                 android:id="@+id/layoutList"
                 android:layout_width="match_parent"

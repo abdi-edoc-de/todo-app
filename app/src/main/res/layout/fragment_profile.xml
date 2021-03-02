@@ -60,8 +60,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
-                <com.philjay.circledisplay.CircleDisplay
-                    android:id="@+id/circleDisplay"
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pi"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent" />

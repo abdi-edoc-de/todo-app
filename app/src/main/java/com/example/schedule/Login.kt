@@ -1,5 +1,6 @@
 package com.example.schedule
 
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -9,11 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.room.Room
 import com.example.schedule.databinding.FragmentLoginBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -46,6 +45,7 @@ class Login : Fragment() {
 
 
         val pin=binding.pin
+        pin.setLineColor(Color.BLACK)
 
         val check: TextWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
@@ -61,6 +61,10 @@ class Login : Fragment() {
                             user.hasLoggedIn = true
                             userDAO.updateUser(user)
                             findNavController().navigate(LoginDirections.actionLogin2ToMainPage2())
+                        }else{
+                            pass=""
+                            pin.setText(pass)
+                            pin.setLineColor(Color.RED)
                         }
                     }
                 }
@@ -69,9 +73,7 @@ class Login : Fragment() {
                 return pin.text.toString().trim { it <= ' ' }.length
             }
         }
-        binding.one.setOnClickListener {
-            pin.setText("1")
-        }
+
         for(i in 0..num.childCount-1){
             Log.d("last","last")
             innerLinaer=num.getChildAt(i) as LinearLayout

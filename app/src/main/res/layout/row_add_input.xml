@@ -12,8 +12,6 @@
     <EditText
         android:id="@+id/edit_task"
         android:background="@drawable/round_border"
-
-
         android:layout_marginStart="16dp"
         android:layout_weight="1"
         android:hint="@string/enter_task"

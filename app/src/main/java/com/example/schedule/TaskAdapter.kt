@@ -7,20 +7,27 @@ import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.schedule.models.Task
+import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.utils.ColorTemplate
 import java.text.SimpleDateFormat
 
 
 class TaskAdapter(private val taskLists: List<Task>, private val context: Context): RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
     private lateinit var card:LinearLayout;
-
+private lateinit var layoutList:LinearLayout;
     inner class ViewHolder(listItemView: View): RecyclerView.ViewHolder(listItemView){
          val subtaskConfirm : LinearLayout = itemView.findViewById(R.id.subCinfirmation);
         val titleView: TextView = itemView.findViewById<TextView>(R.id.taskTitle)
         val dateView: TextView = itemView.findViewById<TextView>(R.id.taskDate)
+        var pie=itemView.findViewById<PieChart>(R.id.pi2);
 
     }
 
@@ -30,7 +37,6 @@ class TaskAdapter(private val taskLists: List<Task>, private val context: Contex
         val context = parent.context
         val inflater = LayoutInflater.from(context)
         val taskView = inflater.inflate(R.layout.task_item, parent, false)
-
         return ViewHolder(taskView)
 
     }
@@ -39,23 +45,69 @@ class TaskAdapter(private val taskLists: List<Task>, private val context: Contex
         val taskItem: Task = taskLists[position]
         // Set item views based on your views and data model
         card=holder.subtaskConfirm
+        var pie=holder.pie!!
         val textView = holder.titleView
         textView.text = taskItem.title
         val dateView = holder.dateView
         val timeFormat = SimpleDateFormat("hh:mm aa")
         dateView.text = "${timeFormat.format(taskItem.startDate!!)}-${timeFormat.format(taskItem.endDate!!)}"
-        card.setOnClickListener{
-            val v: View =LayoutInflater.from(context).inflate(R.layout.row_for_confirmation, null, false)
-            var lay=LayoutInflater.from(context).inflate(R.layout.fragment_subtask_confirmation,null,false)
-            var layoutList:LinearLayout=lay.findViewById(R.id.layoutList);
-            layoutList.addView(v)
-            var myDialog: Dialog = Dialog(context);
 
+        setLitsner(card)
+        addData(pie)
+
+    }
+
+    private fun addData(chart1: PieChart) {
+
+        var arr2=ArrayList<PieEntry>()
+        arr2.add(PieEntry(200.0F))//addin values for charts
+        arr2.add(PieEntry(110.0F))//addin values for charts
+
+        var pieDataSet2: PieDataSet = PieDataSet(arr2,"")
+        pieDataSet2.valueTextColor= Color.WHITE
+        pieDataSet2.colors= ColorTemplate.COLORFUL_COLORS.toList()
+
+        pieDataSet2.valueTextSize=16f
+        var pieData2= PieData(pieDataSet2)
+        chart1.setBackgroundColor(Color.TRANSPARENT)
+        chart1.data=pieData2
+        chart1.centerText="20%"
+        chart1.setCenterTextColor(Color.WHITE)
+        chart1.setDrawHoleEnabled(true);
+        chart1.setHoleColor(Color.TRANSPARENT);
+        chart1.description.isEnabled = false
+        chart1.setDrawSlicesUnderHole(false)
+        chart1.data.setDrawValues(false)
+
+
+        chart1.legend.isEnabled=false;
+        chart1.setDrawEntryLabels(false)
+        chart1.setDrawMarkers(false)
+        chart1.animate()
+
+    }
+
+    private fun setLitsner(card: LinearLayout) {
+        card.setOnClickListener{
+
+            var lay=LayoutInflater.from(context).inflate(R.layout.fragment_subtask_confirmation,null,false)
+            layoutList=lay.findViewById(R.id.layoutList)
+            for (i in listOf<String>("Pizza","second")){
+                addView(i)
+            }
+            var myDialog: Dialog = Dialog(context);
             myDialog.setContentView(lay);
             myDialog.getWindow()?.setBackgroundDrawable( ColorDrawable(Color.TRANSPARENT));
             myDialog.show();
-
         }
+
+    }
+
+    fun addView(taskName: String){
+        var v: View=LayoutInflater.from(context).inflate(R.layout.row_for_confirmation, null, false)
+        var check:CheckBox=v.findViewById(R.id.checkBox)
+        check.setText(taskName)
+        layoutList.addView(v)
     }
 
     override fun getItemCount(): Int {
