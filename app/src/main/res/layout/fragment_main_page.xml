@@ -26,6 +26,8 @@
                 android:theme="@style/ThemeOverlay.AppCompat.Dark"
                 android:background="#68AAFF">
 
+
+
                 <com.google.android.material.appbar.CollapsingToolbarLayout
                     android:id="@+id/toolbar_layout"
                     android:layout_width="match_parent"
@@ -36,6 +38,13 @@
                     app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
                     app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
 
+                      <Button
+                          android:id="@+id/search"
+                          android:layout_gravity="end"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:background="@android:color/transparent"
+                          android:drawableLeft="@drawable/ic_baseline_search" />
 
 
 
@@ -85,8 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                tools:context=".MainActivity"
-                >
+                tools:context=".MainActivity" >
 
 
 

@@ -72,7 +72,7 @@ private lateinit var layoutList:LinearLayout;
         chart1.setBackgroundColor(Color.TRANSPARENT)
         chart1.data=pieData2
         chart1.centerText="20%"
-        chart1.setCenterTextColor(Color.WHITE)
+        chart1.setCenterTextColor(Color.BLACK)
         chart1.setDrawHoleEnabled(true);
         chart1.setHoleColor(Color.TRANSPARENT);
         chart1.description.isEnabled = false
@@ -92,6 +92,10 @@ private lateinit var layoutList:LinearLayout;
 
             var lay=LayoutInflater.from(context).inflate(R.layout.fragment_subtask_confirmation,null,false)
             layoutList=lay.findViewById(R.id.layoutList)
+
+
+
+
             for (i in listOf<String>("Pizza","second")){
                 addView(i)
             }
@@ -109,6 +113,7 @@ private lateinit var layoutList:LinearLayout;
         check.setText(taskName)
         layoutList.addView(v)
     }
+
 
     override fun getItemCount(): Int {
         return taskLists.size
