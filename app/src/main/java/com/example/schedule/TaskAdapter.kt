@@ -1,13 +1,14 @@
 package com.example.schedule
 
+import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.schedule.models.Task
 import java.text.SimpleDateFormat
@@ -44,16 +45,24 @@ class TaskAdapter(private val taskLists: List<Task>, private val context: Contex
         val timeFormat = SimpleDateFormat("hh:mm aa")
         dateView.text = "${timeFormat.format(taskItem.startDate!!)}-${timeFormat.format(taskItem.endDate!!)}"
         card.setOnClickListener{
-            var popUp: DialogFragment = DialogFragment()
-            popUp.show((context as Fragment).parentFragmentManager, "dont")
+            val v: View =LayoutInflater.from(context).inflate(R.layout.row_for_confirmation, null, false)
+            var lay=LayoutInflater.from(context).inflate(R.layout.fragment_subtask_confirmation,null,false)
+            var layoutList:LinearLayout=lay.findViewById(R.id.layoutList);
+            layoutList.addView(v)
+            var myDialog: Dialog = Dialog(context);
+
+            myDialog.setContentView(lay);
+            myDialog.getWindow()?.setBackgroundDrawable( ColorDrawable(Color.TRANSPARENT));
+            myDialog.show();
+
         }
     }
 
     override fun getItemCount(): Int {
         return taskLists.size
     }
-    fun getCard():LinearLayout {
-        return card
-    }
+//    fun getCard():LinearLayout {
+//        return card
+//    }
 
 }

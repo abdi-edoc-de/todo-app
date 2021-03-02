@@ -69,8 +69,6 @@ class Schedule : Fragment() {
 checkIfValidAndRead()
         }
 
-
-
         mDisplayDate.setOnClickListener {
             val cal = Calendar.getInstance()
             val year = cal[Calendar.YEAR]
