@@ -56,7 +56,7 @@ private lateinit var layoutList:LinearLayout;
         dateView.text = "${timeFormat.format(taskItem.startDate!!)}-${timeFormat.format(taskItem.endDate!!)}"
 
         setListener(card, taskLists[position])
-        addData(pie)
+//        addData(pie)
 
     }
 

@@ -25,4 +25,7 @@ interface TaskDAO {
     @Query("SELECT * FROM task WHERE start_date BETWEEN :startDate AND :endDate ORDER BY start_date")
     fun getAllBetweenDates(startDate: Date, endDate: Date): List<Task>
 
+    @Query("SELECT * from task WHERE (lower(title) LIKE :query)")
+    fun getAllStartingWith(query: String): List<Task>
+
 }
