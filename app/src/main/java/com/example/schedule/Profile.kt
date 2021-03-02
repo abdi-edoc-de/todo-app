@@ -138,11 +138,17 @@ private lateinit var binding:FragmentProfileBinding;
 
             binding.register.setOnClickListener { view ->
                 val pin = binding.inputPassword.text?.toString()
-                (!pin.isNullOrBlank()).let {
-                    pin?.toInt()?.let { user.pin = it }
+
+                if (!pin.isNullOrBlank()){
+                    user.pin = pin.toInt()
                 }
+
                 user.askOnStart = binding.toggleButton1.isChecked
-                binding.inputEmail.text?.toString()?.let { email -> (!email.isNullOrBlank()).let {user.username = email }}
+
+                val email = binding.inputEmail.text.toString()
+                if (!email.isNullOrBlank()){
+                    user.username = email
+                }
 
                 GlobalScope.launch { db.userDao().updateUser(user) }
                 Log.w("MainActivity", user.toString())

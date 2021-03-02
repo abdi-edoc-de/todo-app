@@ -38,8 +38,8 @@ class Schedule : Fragment() {
     // TODO: Rename and change types of parameters
     data class Schedule(val Date: String, val startTime: String, val finishTime: String, val title:String, val note:String)
 
+    private var dateSelected = Calendar.getInstance()
     private lateinit var db: AppDatabase
-    private lateinit var dateSelected: Calendar
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -88,7 +88,6 @@ checkIfValidAndRead()
             var month = month
             month += 1
             Log.d("TAG", "onDateSet: mm/dd/yyy: $month/$day/$year")
-            dateSelected = Calendar.getInstance()
             dateSelected.set(year, month - 1, day)
 
             val date = makeDateString(day, month, year)

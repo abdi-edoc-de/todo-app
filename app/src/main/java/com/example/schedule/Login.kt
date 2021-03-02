@@ -63,8 +63,10 @@ class Login : Fragment() {
                             findNavController().navigate(LoginDirections.actionLogin2ToMainPage2())
                         }else{
                             pass=""
-                            pin.setText(pass)
-                            pin.setLineColor(Color.RED)
+                            requireActivity().runOnUiThread {
+                                pin.setText(pass)
+                                pin.setLineColor(Color.RED)
+                            }
                         }
                     }
                 }

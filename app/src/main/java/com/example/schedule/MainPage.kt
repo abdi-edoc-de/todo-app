@@ -106,15 +106,6 @@ class MainPage :Fragment() {
 //            Navigation.createNavigateOnClickListener(R.id.action_mainPage_to_schedule)
         }
 
-
-
-        // this return the main page view object
-        return binding.root
-
-    }
-
-    override fun onStart() {
-        super.onStart()
         val taskListView = binding.TaskList
         GlobalScope.launch {
             db = AppDatabase.getDatabase(requireContext())
@@ -127,9 +118,20 @@ class MainPage :Fragment() {
             adapter = TaskAdapter(tasks, requireContext())
             Log.d("Last","Last")
             Log.d("first","first")
-            taskListView.adapter = adapter
-            taskListView.layoutManager = LinearLayoutManager(requireContext())
+            requireActivity().runOnUiThread {
+                taskListView.adapter = adapter
+                taskListView.layoutManager = LinearLayoutManager(requireContext())
+            }
         }
+
+        // this return the main page view object
+        return binding.root
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
 //        adapter.getCard().setOnClickListener{
 //            var popUp: DialogFragment = DialogFragment()
 //            popUp.show(parentFragmentManager,"dont")
