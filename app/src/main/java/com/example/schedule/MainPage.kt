@@ -64,7 +64,9 @@ class MainPage :Fragment() {
 //        }
 
 
-
+binding.search.setOnClickListener {
+it.findNavController().navigate(R.id.action_mainPage_to_search2)
+}
 
 
 //        this is block for the horizontal date picker  library you can check the documentation here is the link https://github.com/Mulham-Raee/Horizontal-Calendar
