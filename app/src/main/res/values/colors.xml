@@ -12,4 +12,6 @@
     <color name="color_68AAFF">#68AAFF</color>
     <color name="default_text_color">#737561</color>
     <color name="button_color_76d0f2">#76d0f2</color>
+    <color name="schedule">#9edaff</color>
+    <color name="color_CCBCDEF3">#CCBCDEF3</color>
 </resources>

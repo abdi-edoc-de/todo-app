@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="176dp"
-    android:background="@color/cardview_dark_background"
+    android:background="@color/color_CCBCDEF3"
     android:gravity="bottom"
     android:orientation="vertical"
     android:padding="16dp"
@@ -15,10 +15,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
-        android:text="Coding in Flow"
+        android:text="@string/user_name"
+        android:textColor="@color/default_text_color"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="info@codinginflow.com" />
+        android:textColor="@color/default_text_color"
+        android:text="@string/user_email" />
 </LinearLayout>
