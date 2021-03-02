@@ -35,6 +35,7 @@ class Schedule : Fragment() {
     private lateinit var mDisplayDate:Button;
     private lateinit var binding: FragmentScheduleBinding
     private lateinit var mDateSetListener: OnDateSetListener;
+    private var task: Task? = null
     // TODO: Rename and change types of parameters
     data class Schedule(val Date: String, val startTime: String, val finishTime: String, val title:String, val note:String)
 
@@ -48,25 +49,23 @@ class Schedule : Fragment() {
         // Inflate the layout for this fragment
         binding =DataBindingUtil.inflate(inflater, R.layout.fragment_schedule, container, false)
 //    this code block is for making spinner date picker to be 24 hours
-        val tpFrom=binding.simpleTimePicke
-        val tpTo=binding.simpleTimePicker
-        tpFrom.setIs24HourView(true)
-        tpTo.setIs24HourView(true)
+        val timePickerTo=binding.simpleTimePicke
+        val timePickerFrom=binding.simpleTimePicker
+        timePickerTo.setIs24HourView(true)
+        timePickerFrom.setIs24HourView(true)
 
         layoutList =binding.layoutList
         binding.addTask.setOnClickListener {
-            addView()
+            addView(null)
         }
-
-
 
 //        this code block is for date picker
         initDatePicker()
         mDisplayDate=binding.datePickerButton
-        mDisplayDate.text = getTodaysDate()
+        mDisplayDate.text = getDateString(Calendar.getInstance())
 
         binding.save.setOnClickListener {
-checkIfValidAndRead()
+            checkIfValidAndRead()
         }
 
         mDisplayDate.setOnClickListener {
@@ -96,30 +95,61 @@ checkIfValidAndRead()
 
         binding.save.setOnClickListener {
             val title = binding.title.text.toString()
-            dateSelected.set(Calendar.HOUR, tpFrom.hour)
-            dateSelected.set(Calendar.MINUTE, tpFrom.minute)
+            dateSelected.set(Calendar.HOUR, timePickerFrom.hour)
+            dateSelected.set(Calendar.MINUTE, timePickerFrom.minute)
             val startDate = dateSelected.time
             Log.w("StartDate", startDate.toString())
-            dateSelected.set(Calendar.HOUR, tpTo.hour)
-            dateSelected.set(Calendar.MINUTE, tpTo.minute)
+            dateSelected.set(Calendar.HOUR, timePickerTo.hour)
+            dateSelected.set(Calendar.MINUTE, timePickerTo.minute)
             val endDate = dateSelected.time
             Log.w("EndDate", endDate.toString())
 
             val notes = binding.editTextTextMultiLine.text.toString()
 
-            val subtaskList = layoutList.children.map {
+            var subtaskList = layoutList.children.map {
                 return@map Pair(it.findViewById<EditText>(R.id.edit_task).text.toString(), false)
             }.filter {
                 it.first.isNotEmpty()
-            }.toList()
+            }.toMutableList()
 
-            val task = Task(UUID.randomUUID(), title, startDate, endDate, notes, subtaskList)
+            if (task == null){
+                task = Task(UUID.randomUUID(), title, startDate, endDate, notes, subtaskList)
+            } else {
+                task = Task(task!!.uid, title, startDate, endDate, notes, subtaskList)
+            }
             GlobalScope.launch {
                 db = AppDatabase.getDatabase(requireContext())
-                db.taskDao().insertTask(task)
+                db.taskDao().insertTask(task!!)
                 it.findNavController().popBackStack()
             }
         }
+
+        val taskID = arguments?.getString("TaskID")
+        if (taskID != null){
+            GlobalScope.launch {
+                val db = AppDatabase.getDatabase(requireContext())
+                task = db.taskDao().getByID(UUID.fromString(taskID))
+                val cal = Calendar.getInstance()
+                val start = task!!.startDate
+                cal.time = start!!
+                dateSelected = cal
+
+                requireActivity().runOnUiThread {
+                    mDisplayDate.text = getDateString(cal)
+                    binding.title.setText(task!!.title)
+                    timePickerFrom.hour = cal.get(Calendar.HOUR)
+                    timePickerFrom.minute = cal.get(Calendar.MINUTE)
+                    cal.time = task!!.endDate
+                    timePickerTo.hour = cal.get(Calendar.HOUR)
+                    timePickerTo.minute = cal.get(Calendar.MINUTE)
+                    task!!.subTasks.forEach {
+                        addView(it.first)
+                    }
+                    binding.editTextTextMultiLine.setText(task!!.notes)
+                }
+            }
+        }
+
 
         return binding.root
     }
@@ -145,11 +175,11 @@ checkIfValidAndRead()
 
 
 
-    private fun addView() {
+    private fun addView(prevText: String?) {
         val task: View = layoutInflater.inflate(R.layout.row_add_input, null, false)
         val editText = task.findViewById<View>(R.id.edit_task) as EditText
         val imageClose = task.findViewById<View>(R.id.image_remove) as ImageView
-
+        prevText?.let {editText.setText(prevText)}
         imageClose.setOnClickListener {
             removeTaskView(task)
             }
@@ -166,8 +196,7 @@ checkIfValidAndRead()
 
 
     }
-    private fun getTodaysDate(): String? {
-        val cal = Calendar.getInstance()
+    private fun getDateString(cal: Calendar): String? {
         val year = cal[Calendar.YEAR]
         var month = cal[Calendar.MONTH]
         month = month + 1

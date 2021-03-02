@@ -34,7 +34,12 @@
         android:id="@+id/schedule"
         android:name="com.example.schedule.Schedule"
         android:label="fragment_schedule"
-        tools:layout="@layout/fragment_schedule" />
+        tools:layout="@layout/fragment_schedule" >
+        <argument
+            android:name="TaskID"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
     <fragment
         android:id="@+id/login2"
         android:name="com.example.schedule.Login"

@@ -4,12 +4,12 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.schedule.models.Task
 import com.github.mikephil.charting.charts.PieChart
@@ -17,7 +17,11 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class TaskAdapter(private val taskLists: List<Task>, private val context: Context): RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
@@ -27,8 +31,7 @@ private lateinit var layoutList:LinearLayout;
          val subtaskConfirm : LinearLayout = itemView.findViewById(R.id.subCinfirmation);
         val titleView: TextView = itemView.findViewById<TextView>(R.id.taskTitle)
         val dateView: TextView = itemView.findViewById<TextView>(R.id.taskDate)
-        var pie=itemView.findViewById<PieChart>(R.id.pi2);
-
+        var pie: PieChart = itemView.findViewById<PieChart>(R.id.pi2)
     }
 
 
@@ -52,7 +55,7 @@ private lateinit var layoutList:LinearLayout;
         val timeFormat = SimpleDateFormat("hh:mm aa")
         dateView.text = "${timeFormat.format(taskItem.startDate!!)}-${timeFormat.format(taskItem.endDate!!)}"
 
-        setLitsner(card)
+        setListener(card, taskLists[position])
         addData(pie)
 
     }
@@ -87,31 +90,56 @@ private lateinit var layoutList:LinearLayout;
 
     }
 
-    private fun setLitsner(card: LinearLayout) {
+    private fun setListener(card: LinearLayout, task: Task) {
         card.setOnClickListener{
 
-            var lay=LayoutInflater.from(context).inflate(R.layout.fragment_subtask_confirmation,null,false)
-            layoutList=lay.findViewById(R.id.layoutList)
-
-
-
-
-            for (i in listOf<String>("Pizza","second")){
-                addView(i)
+            if (task.startDate!! > Date()) {
+                val action = MainPageDirections.actionMainPageToSchedule(task.uid.toString())
+                it.findNavController().navigate(action)
+            } else {
+                reportTaskCompletionListener(card, task)
             }
-            var myDialog: Dialog = Dialog(context);
-            myDialog.setContentView(lay);
-            myDialog.getWindow()?.setBackgroundDrawable( ColorDrawable(Color.TRANSPARENT));
-            myDialog.show();
         }
 
     }
 
-    fun addView(taskName: String){
+    private fun reportTaskCompletionListener(card: LinearLayout, task: Task) {
+        val subTasks = task.subTasks.toMutableList()
+        var lay=LayoutInflater.from(context).inflate(R.layout.fragment_subtask_confirmation,null,false)
+        val updateBtn = lay.findViewById<Button>(R.id.update)
+        layoutList=lay.findViewById(R.id.layoutList)
+        for (i in subTasks.indices){
+            addView(subTasks, i)
+        }
+        var myDialog: Dialog = Dialog(context);
+        myDialog.setContentView(lay);
+        myDialog.getWindow()?.setBackgroundDrawable( ColorDrawable(Color.TRANSPARENT));
+        updateBtn.setOnClickListener {
+            Log.w("TaskAdapter", "We got to the updateBtn")
+            task.subTasks = subTasks
+            GlobalScope.launch {
+                val db = AppDatabase.getDatabase(context)
+                db.taskDao().insertTask(task)
+                myDialog.dismiss()
+            }
+        }
+        myDialog.show();
+
+    }
+
+    fun addView(subTasks: MutableList<Pair<String, Boolean>>, position: Int){
+        val subTask = subTasks[position]
         var v: View=LayoutInflater.from(context).inflate(R.layout.row_for_confirmation, null, false)
         var check:CheckBox=v.findViewById(R.id.checkBox)
-        check.setText(taskName)
+        check.setText(subTask.first)
+        check.isChecked = subTask.second
+        check.setOnCheckedChangeListener { _, isChecked ->
+            subTasks[position] = subTask.copy(second = isChecked)
+        }
         layoutList.addView(v)
+//        { buttonView, isChecked ->
+//            subTask.second = isChecked
+//        }
     }
 
 
