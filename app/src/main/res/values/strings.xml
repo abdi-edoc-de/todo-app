@@ -9,10 +9,20 @@
 
 
     <string name="top_icon">TOP ICON</string>
-    <string name="email">Name</string>
+    <string name="email">Email</string>
     <string name="password">PIN</string>
     <string name="Start">Start</string>
     <string name="already_have_an_account">Registeration</string>
+    <string name="user_name">User</string>
+    <string name="ask_me_pin_on_start_up">Ask me pin on start up</string>
+    <string name="update">Update</string>
+    <string name="jan_01_20">JAN 01 20</string>
+    <string name="from">From:</string>
+    <string name="to">To:</string>
+    <string name="note">Note</string>
+    <string name="user_email">info@aait.com</string>
+    <string name="enter_task">Enter Task</string>
+    <string name="title">Title</string>
 
 
 </resources>
