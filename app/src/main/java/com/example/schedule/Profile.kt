@@ -61,7 +61,7 @@ private lateinit var binding:FragmentProfileBinding;
 //        chart.data=pieData
 //        chart.centerText="man"
 //        chart.animate()
-//
+
 
 
 //        the left chart
@@ -96,32 +96,32 @@ private lateinit var binding:FragmentProfileBinding;
 
 
 
-//        var chart1: PieChart =binding.pi2;
-//        var arr2=ArrayList<PieEntry>()
-//        arr2.add(PieEntry(200.0F))
-//        arr2.add(PieEntry(110.0F))
-//
-//        var pieDataSet2: PieDataSet = PieDataSet(arr2,"")
-//        pieDataSet2.valueTextSize=16f
-//        pieDataSet2.colors= ColorTemplate.COLORFUL_COLORS.toList()
-//
-//
-//        var pieData2= PieData(pieDataSet2)
-//        chart1.setBackgroundColor(Color.TRANSPARENT)
-//        chart1.data=pieData2
-//        chart1.centerText="20%"
-//        chart1.setCenterTextColor(Color.WHITE)
-//        chart1.setDrawHoleEnabled(true);
-//        chart1.setHoleColor(Color.TRANSPARENT);
-//        chart1.description.isEnabled = false
-//        chart1.setDrawSlicesUnderHole(false)
-//        chart1.data.setDrawValues(false)
-//
-//
-//        chart1.legend.isEnabled=false;
-//        chart1.setDrawEntryLabels(false)
-//        chart1.setDrawMarkers(false)
-//        chart1.animate()
+        var chart1: PieChart =binding.pi2;
+        var arr2=ArrayList<PieEntry>()
+        arr2.add(PieEntry(200.0F))
+        arr2.add(PieEntry(110.0F))
+
+        var pieDataSet2: PieDataSet = PieDataSet(arr2,"")
+        pieDataSet2.valueTextSize=16f
+        pieDataSet2.colors= ColorTemplate.COLORFUL_COLORS.toList()
+
+
+        var pieData2= PieData(pieDataSet2)
+        chart1.setBackgroundColor(Color.TRANSPARENT)
+        chart1.data=pieData2
+        chart1.centerText="20%"
+        chart1.setCenterTextColor(Color.WHITE)
+        chart1.setDrawHoleEnabled(true);
+        chart1.setHoleColor(Color.TRANSPARENT);
+        chart1.description.isEnabled = false
+        chart1.setDrawSlicesUnderHole(false)
+        chart1.data.setDrawValues(false)
+
+
+        chart1.legend.isEnabled=false;
+        chart1.setDrawEntryLabels(false)
+        chart1.setDrawMarkers(false)
+        chart1.animate()
 
 
 
