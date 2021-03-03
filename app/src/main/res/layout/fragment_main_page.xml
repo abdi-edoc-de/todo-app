@@ -128,8 +128,8 @@
                 android:layout_gravity="bottom|end"
                 android:layout_margin="20dp"
                 android:shape="rectangle"
-                android:src="@drawable/add"
-                app:backgroundTint="#68AAFF"
+                android:src="@drawable/ic_baseline_add"
+                app:backgroundTint="#ffff"
                 app:maxImageSize="30dp" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
