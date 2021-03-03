@@ -58,7 +58,7 @@ private lateinit var layoutList:LinearLayout;
         val timeFormat = SimpleDateFormat("hh:mm aa")
         dateView.text = "${timeFormat.format(taskItem.startDate!!)}-${timeFormat.format(taskItem.endDate!!)}"
 
-//        addData(pie)
+        addData(pie)
         setListener(card, taskLists[position])
 
 
@@ -140,17 +140,13 @@ private lateinit var layoutList:LinearLayout;
             subTasks[position] = subTask.copy(second = isChecked)
         }
         layoutList.addView(v)
-//        { buttonView, isChecked ->
-//            subTask.second = isChecked
-//        }
+
     }
 
 
     override fun getItemCount(): Int {
         return taskLists.size
     }
-//    fun getCard():LinearLayout {
-//        return card
-//    }
+
 
 }
