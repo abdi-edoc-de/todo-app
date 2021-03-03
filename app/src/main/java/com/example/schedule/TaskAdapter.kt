@@ -94,7 +94,7 @@ private lateinit var layoutList:LinearLayout;
 
     }
 
-    public open fun setListener(card: LinearLayout, task: Task) {
+    open fun setListener(card: LinearLayout, task: Task) {
         card.setOnClickListener{
             if (task.startDate!! > Date()) {
                 val action = MainPageDirections.actionMainPageToSchedule(task.uid.toString())

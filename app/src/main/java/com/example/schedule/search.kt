@@ -34,8 +34,18 @@ class search : Fragment() {
         GlobalScope.launch {
             val db = AppDatabase.getDatabase(requireContext())
             tasks.addAll(db.taskDao().getAllStartingWith("%"))
-            adapter = TaskAdapter(tasks, requireContext())
-
+            adapter = object : TaskAdapter(tasks, requireContext()) {
+                override fun setListener(card: LinearLayout, task: Task){
+                    card.setOnClickListener{
+                        if (task.startDate!! > Date()) {
+                            val action = searchDirections.actionSearch2ToSchedule(task.uid.toString())
+                            it.findNavController().navigate(action)
+                        } else {
+                            reportTaskCompletionListener(card, task)
+                        }
+                    }
+                }
+            }
             requireActivity().runOnUiThread {
                 taskList.adapter = adapter
                 taskList.layoutManager = LinearLayoutManager(requireContext())
@@ -47,21 +57,8 @@ class search : Fragment() {
                 val db = AppDatabase.getDatabase(requireContext())
                 tasks.removeIf { true }
                 tasks.addAll(db.taskDao().getAllStartingWith(it.toString() + "%"))
-                adapter = object : TaskAdapter(tasks, requireContext()) {
-                    override fun setListener(card: LinearLayout, task: Task){
-                        card.setOnClickListener{
-                            if (task.startDate!! > Date()) {
-                                val action = MainPageDirections.actionMainPageToSchedule(task.uid.toString())
-                                it.findNavController().navigate(action)
-                            } else {
-                                reportTaskCompletionListener(card, task)
-                            }
-                        }
-                    }
-                }
                 requireActivity().runOnUiThread {
-                    taskList.adapter = adapter
-                    taskList.layoutManager = LinearLayoutManager(requireContext())
+                    adapter.notifyDataSetChanged()
                 }
             }
         }
