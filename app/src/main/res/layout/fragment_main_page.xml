@@ -80,10 +80,10 @@
                     android:layout_height="wrap_content">
                     <devs.mulham.horizontalcalendar.HorizontalCalendarView
                         android:id="@+id/calendarView"
-
+                        android:paddingTop="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
+                        android:background="@drawable/calendar_background_colored"
                         app:textColorSelected="#FFFF"/>
                 </LinearLayout>
             </com.google.android.material.appbar.AppBarLayout>
@@ -115,7 +115,7 @@
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:id="@+id/TaskList" />
 
                 </LinearLayout>
