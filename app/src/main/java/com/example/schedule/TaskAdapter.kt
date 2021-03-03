@@ -27,7 +27,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class TaskAdapter(private val taskLists: List<Task>, private val context: Context): RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
+open class TaskAdapter(private val taskLists: List<Task>, private val context: Context): RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
     private lateinit var card:LinearLayout;
 private lateinit var layoutList:LinearLayout;
     inner class ViewHolder(listItemView: View): RecyclerView.ViewHolder(listItemView){
@@ -58,7 +58,7 @@ private lateinit var layoutList:LinearLayout;
         val timeFormat = SimpleDateFormat("hh:mm aa")
         dateView.text = "${timeFormat.format(taskItem.startDate!!)}-${timeFormat.format(taskItem.endDate!!)}"
 
-        addData(pie)
+//        addData(pie)
         setListener(card, taskLists[position])
 
 
@@ -94,9 +94,8 @@ private lateinit var layoutList:LinearLayout;
 
     }
 
-    private fun setListener(card: LinearLayout, task: Task) {
+    public open fun setListener(card: LinearLayout, task: Task) {
         card.setOnClickListener{
-
             if (task.startDate!! > Date()) {
                 val action = MainPageDirections.actionMainPageToSchedule(task.uid.toString())
                 it.findNavController().navigate(action)
@@ -107,7 +106,7 @@ private lateinit var layoutList:LinearLayout;
 
     }
 
-    private fun reportTaskCompletionListener(card: LinearLayout, task: Task) {
+    fun reportTaskCompletionListener(card: LinearLayout, task: Task) {
         val subTasks = task.subTasks.toMutableList()
         var lay=LayoutInflater.from(context).inflate(R.layout.fragment_subtask_confirmation,null,false)
         val updateBtn = lay.findViewById<Button>(R.id.update)

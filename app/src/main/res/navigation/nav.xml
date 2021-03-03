@@ -66,5 +66,9 @@
         android:id="@+id/search2"
         android:name="com.example.schedule.search"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_search2_to_schedule"
+            app:destination="@id/schedule" />
+    </fragment>
 </navigation>

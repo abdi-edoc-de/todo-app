@@ -6,15 +6,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.schedule.databinding.FragmentSearchBinding
 import com.example.schedule.models.Task
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.util.*
 
 
 class search : Fragment() {
@@ -32,6 +35,7 @@ class search : Fragment() {
             val db = AppDatabase.getDatabase(requireContext())
             tasks.addAll(db.taskDao().getAllStartingWith("%"))
             adapter = TaskAdapter(tasks, requireContext())
+
             requireActivity().runOnUiThread {
                 taskList.adapter = adapter
                 taskList.layoutManager = LinearLayoutManager(requireContext())
@@ -43,7 +47,18 @@ class search : Fragment() {
                 val db = AppDatabase.getDatabase(requireContext())
                 tasks.removeIf { true }
                 tasks.addAll(db.taskDao().getAllStartingWith(it.toString() + "%"))
-                adapter = TaskAdapter(tasks, requireContext())
+                adapter = object : TaskAdapter(tasks, requireContext()) {
+                    override fun setListener(card: LinearLayout, task: Task){
+                        card.setOnClickListener{
+                            if (task.startDate!! > Date()) {
+                                val action = MainPageDirections.actionMainPageToSchedule(task.uid.toString())
+                                it.findNavController().navigate(action)
+                            } else {
+                                reportTaskCompletionListener(card, task)
+                            }
+                        }
+                    }
+                }
                 requireActivity().runOnUiThread {
                     taskList.adapter = adapter
                     taskList.layoutManager = LinearLayoutManager(requireContext())

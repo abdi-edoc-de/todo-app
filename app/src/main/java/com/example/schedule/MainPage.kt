@@ -102,6 +102,7 @@ it.findNavController().navigate(R.id.action_mainPage_to_search2)
             it.findNavController().navigate(R.id.action_mainPage_to_profile)
             Toast.makeText(activity, "New profile: ", Toast.LENGTH_LONG).show();
         }
+
         binding.fab.setOnClickListener{
             Toast.makeText(activity, "shedule ", Toast.LENGTH_LONG).show();
             it.findNavController().navigate(R.id.action_mainPage_to_schedule)
